@@ -146,6 +146,9 @@
   <ItemGroup>
     <ClCompile Include="Timberrr!!.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Timberrr!!.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
