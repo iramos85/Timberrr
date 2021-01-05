@@ -96,7 +96,7 @@ int main()
 
 	// We need to choose a font
 	Font font;
-	font.loadFromFile("fonts/KOMIKAP_.tiff");
+	font.loadFromFile("fonts/KOMIKAP_.ttf");
 
 	// Set the font to our message
 	messageText.setFont(font);
