@@ -1,6 +1,7 @@
 // Include important libraries here
 #include <sstream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Timberrr!!.h"
 
 // Make code easier to type with "using namespace" 
@@ -204,6 +205,25 @@ int main()
 
 	//Control the player input
 	bool acceptInput = false;
+
+	//Prepare the sounds
+	//the player chopping sound
+	SoundBuffer chopBuffer;
+	chopBuffer.loadFromFile("sound/chop.wav");
+	Sound chop;
+	chop.setBuffer(chopBuffer);
+
+	//the player has died
+	SoundBuffer deathBuffer;
+	deathBuffer.loadFromFile("sound/death.wav");
+	Sound death;
+	death.setBuffer(deathBuffer);
+
+	//Out of time
+	SoundBuffer ootBuffer;
+	ootBuffer.loadFromFile("sound/out_of_time.wav");
+	Sound outOfTime;
+	outOfTime.setBuffer(ootBuffer);
 	
 	while (window.isOpen())
 	{
@@ -285,6 +305,8 @@ int main()
 				logActive = true;
 
 				acceptInput = false;
+				//Play a chop sound
+				chop.play();
 			}
 
 			//handle pressing the left cursor key
@@ -311,6 +333,9 @@ int main()
 				logActive = true;
 
 				acceptInput = false;
+
+				//Play a chop sound
+				chop.play();
 			}
 		}
 
@@ -349,6 +374,9 @@ int main()
 					textRect.height / 2.0f);
 
 				messageText.setPosition(1920 / 2.0f, 1080 / 2.0f);
+
+				//play the out of time sound
+				outOfTime.play();
 			}
 
 			// Setup the bee
@@ -519,6 +547,40 @@ int main()
 					logActive = false;
 					spriteLog.setPosition(810, 720);
 				}
+			}
+
+			//has the player been crushed by a branch?
+			if (branchPositions[5] == playerSide)
+			{
+				//death
+				paused = true;
+				acceptInput = false;
+
+				//Draw the gravestone
+				spriteRIP.setPosition(525, 760);
+
+				//hide the player
+				spritePlayer.setPosition(2000, 660);
+
+				//hide the axe
+				spriteAxe.setPosition(2000,
+					spriteAxe.getPosition().y);
+
+				//Change the text of the message
+				messageText.setString("CRUSHED!!!");
+
+				//Center it on the screen
+				FloatRect textRect = messageText.getLocalBounds();
+
+				messageText.setOrigin(textRect.left +
+					textRect.width / 2.0f,
+					textRect.top + textRect.height / 2.0f);
+
+				messageText.setPosition(1920 / 2.0f,
+					1080 / 2.0f);
+
+				//play the death sound
+				death.play();
 			}
 
 		} // End if(!paused)
